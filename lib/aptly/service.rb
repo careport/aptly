@@ -9,6 +9,7 @@ module Aptly
 
     def scale(container_count: nil, container_memory_limit_mb: nil)
       params = {
+        type: "scale",
         container_count: container_count,
         container_size: container_memory_limit_mb
       }.compact
