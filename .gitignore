@@ -1,0 +1,11 @@
+/.bundle/
+/vendor/bundle
+/lib/bundler/man
+
+Gemfile.lock
+.ruby-version
+.ruby-gemset
+
+spec/examples.txt
+
+.rvmrc
