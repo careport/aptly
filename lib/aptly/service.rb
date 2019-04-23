@@ -9,11 +9,18 @@ module Aptly
 
     def scale(container_count: nil, container_memory_limit_mb: nil)
       params = {
+        type: "scale",
         container_count: container_count,
         container_size: container_memory_limit_mb
       }.compact
 
-      response = @access_token.post(operations_href, params)
+      response = @access_token.post(
+        operations_href,
+        body: params.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      )
       Operation.new(@access_token, response.parsed)
     end
   end

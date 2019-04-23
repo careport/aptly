@@ -70,7 +70,13 @@ RSpec.describe Aptly::Service do
     instance_double("OAuth::AccessToken").tap do |token|
       allow(token).to receive(:post).with(
         "https://example.com/services/1/operations",
-        container_count: 4
+        body: {
+          type: "scale",
+          container_count: 4
+        }.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
       ).and_return(
         instance_double("OAuth::Response", parsed: fake_operation_data)
       )
