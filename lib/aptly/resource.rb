@@ -2,9 +2,13 @@ module Aptly
   class Resource
     def self.def_attr(attr_name, *path)
       define_method attr_name do
-        path = [attr_name] if path.empty?
-        string_path = path.map(&:to_s)
-        @data.dig(*string_path)
+        @data[attr_name.to_s]
+      end
+    end
+
+    def self.def_href(link_name)
+      define_method "#{link_name}_href".to_sym do
+        @data.dig("_links", link_name.to_s, "href")
       end
     end
 
