@@ -5,7 +5,8 @@ module Aptly
     def_attr :process_type
     def_attr :container_count
     def_attr :container_memory_limit_mb
-    def_attr :operations_href, "_links", "operations", "href"
+
+    def_href :operations
 
     def scale(container_count: nil, container_memory_limit_mb: nil)
       params = {

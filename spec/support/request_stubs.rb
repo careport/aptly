@@ -55,48 +55,77 @@ module RequestStubs
     stub_request(:get, "https://api.aptible.com/apps/#{app_id}").with(
       headers: {
         "Authorization"=>"Bearer TOKEN",
-      }).to_return(
-        status: 200,
-        body: {
-          "id" => app_id,
-          "handle" => "fake-app",
-          "_embedded" => {
-            "services" => [
-              {
-                "id" => 100,
-                "process_type" => "web",
-              },
-              {
-                "id" => 200,
-                "process_type" => "fake_service",
-              },
-              {
-                "id" => 100,
-                "process_type" => "blah",
-              }
-            ]
-          }
-        }.to_json,
-        headers: {
-          "Content-Type" => "application/hal+json"
+      }
+    ).to_return(
+      status: 200,
+      body: {
+        "id" => app_id,
+        "handle" => "fake-app",
+        "_embedded" => {
+          "services" => [
+            {
+              "id" => 100,
+              "process_type" => "web",
+            },
+            {
+              "id" => 200,
+              "process_type" => "fake_service",
+            },
+            {
+              "id" => 100,
+              "process_type" => "blah",
+            }
+          ]
         }
-      )
+      }.to_json,
+      headers: {
+        "Content-Type" => "application/hal+json"
+      }
+    )
   end
 
   def stub_invalid_app_request(app_id)
     stub_request(:get, "https://api.aptible.com/apps/#{app_id}").with(
       headers: {
         "Authorization"=>"Bearer TOKEN",
-      }).to_return(
-        status: 404,
-        body: {
+      }
+    ).to_return(
+      status: 404,
+      body: {
         "code" => 404,
         "error" => "not_found",
         "message" => "Not Found"
-        }.to_json,
-        headers: {
-          "Content-Type" => "application/json"
+      }.to_json,
+      headers: {
+        "Content-Type" => "application/json"
+      }
+    )
+  end
+
+  def stub_valid_accounts_request
+    stub_request(:get, "https://api.aptible.com/accounts").with(
+      headers: {
+        "Authorization"=>"Bearer TOKEN",
+      }
+    ).to_return(
+      status: 200,
+      body: {
+        "_embedded" => {
+          "accounts" => [
+            {
+              "id" => 100,
+              "handle" => "dev"
+            },
+            {
+              "id" => 200,
+              "handle" => "prod"
+            }
+          ]
         }
-      )
+      }.to_json,
+      headers: {
+        "Content-Type" => "application/hal+json"
+      }
+    )
   end
 end

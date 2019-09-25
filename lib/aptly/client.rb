@@ -16,6 +16,13 @@ module Aptly
       )
     end
 
+    def accounts
+      hash = access_token.get("/accounts").parsed
+      hash.dig("_embedded", "accounts").map do |account_data|
+        Account.new(access_token, account_data)
+      end
+    end
+
     def find_app(app_id)
       hash = access_token.get("/apps/#{app_id}").parsed
       App.new(access_token, hash)

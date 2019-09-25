@@ -26,6 +26,22 @@ RSpec.describe Aptly::Client do
     end
   end
 
+  describe "#accounts" do
+    it "is an array of Accounts" do
+      email = "foo@example.com"
+      password = "password"
+
+      stub_valid_token_request(email, password)
+      client = Aptly::Client.new(email, password)
+
+      stub_valid_accounts_request
+      accounts = client.accounts
+
+      expect(accounts.length).to eq(2)
+      expect(accounts).to all be_a(Aptly::Account)
+    end
+  end
+
   describe "#find_app" do
     context "with a valid app_id" do
       it "is an Aptible::App" do
