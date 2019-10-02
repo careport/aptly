@@ -51,44 +51,9 @@ module RequestStubs
     )
   end
 
-  def stub_valid_app_request(app_id)
-    stub_request(:get, "https://api.aptible.com/apps/#{app_id}").with(
-      headers: {
-        "Authorization"=>"Bearer TOKEN",
-      }
-    ).to_return(
-      status: 200,
-      body: {
-        "id" => app_id,
-        "handle" => "fake-app",
-        "_embedded" => {
-          "services" => [
-            {
-              "id" => 100,
-              "process_type" => "web",
-            },
-            {
-              "id" => 200,
-              "process_type" => "fake_service",
-            },
-            {
-              "id" => 100,
-              "process_type" => "blah",
-            }
-          ]
-        }
-      }.to_json,
-      headers: {
-        "Content-Type" => "application/hal+json"
-      }
-    )
-  end
-
   def stub_invalid_app_request(app_id)
     stub_request(:get, "https://api.aptible.com/apps/#{app_id}").with(
-      headers: {
-        "Authorization"=>"Bearer TOKEN",
-      }
+      headers: { "Authorization"=>"Bearer TOKEN" }
     ).to_return(
       status: 404,
       body: {
@@ -102,30 +67,25 @@ module RequestStubs
     )
   end
 
-  def stub_valid_accounts_request
-    stub_request(:get, "https://api.aptible.com/accounts").with(
-      headers: {
-        "Authorization"=>"Bearer TOKEN",
-      }
+  def stub_valid_resource_request(id, resource_name, resource_data)
+    stub_request(:get, "https://api.aptible.com/#{resource_name}s/#{id}").with(
+      headers: { "Authorization" => "Bearer TOKEN" }
+    ).to_return(
+      status: 200,
+      body: resource_data.to_json,
+      headers: { "Content-Type" => "application/hal+json" }
+    )
+  end
+
+  def stub_valid_collection_request(collection_name, collection_data)
+    stub_request(:get, "https://api.aptible.com/#{collection_name}").with(
+      headers: { "Authorization" => "Bearer TOKEN" },
     ).to_return(
       status: 200,
       body: {
-        "_embedded" => {
-          "accounts" => [
-            {
-              "id" => 100,
-              "handle" => "dev"
-            },
-            {
-              "id" => 200,
-              "handle" => "prod"
-            }
-          ]
-        }
+        "_embedded" => { collection_name => collection_data }
       }.to_json,
-      headers: {
-        "Content-Type" => "application/hal+json"
-      }
+      headers: { "Content-Type" => "application/hal+json" }
     )
   end
 end

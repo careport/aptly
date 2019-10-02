@@ -26,15 +26,7 @@ RSpec.describe Aptly::Operation do
   end
 
   def operation_data
-    {
-      "id" => 1,
-      "status" => "running",
-      "_links" => {
-        "self" => {
-          "href" => "https://example.com/services/123/operations/1"
-        }
-      }
-    }
+    JsonFixtures.operations.first
   end
 
   def fake_access_token
