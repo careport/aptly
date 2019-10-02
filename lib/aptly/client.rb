@@ -1,5 +1,22 @@
 module Aptly
   class Client
+    class << self
+      def def_collection(collection_name, member_class)
+        define_method(collection_name.to_sym) do
+          get_collection(collection_name, member_class)
+        end
+
+        define_method("find_#{collection_name.chop}".to_sym) do |id|
+          find_collection_member(collection_name, member_class, id)
+        end
+      end
+    end
+
+    def_collection "accounts", Account
+    def_collection "apps", App
+    def_collection "database_images", DatabaseImage
+    def_collection "databases", Database
+
     def initialize(email, password)
       @email = email
       @password = password
@@ -16,19 +33,19 @@ module Aptly
       )
     end
 
-    def accounts
-      hash = access_token.get("/accounts").parsed
-      hash.dig("_embedded", "accounts").map do |account_data|
-        Account.new(access_token, account_data)
+    private
+
+    def get_collection(collection_name, member_class)
+      hash = access_token.get("/#{collection_name}").parsed
+      hash.dig("_embedded", collection_name).map do |data|
+        member_class.new(access_token, data)
       end
     end
 
-    def find_app(app_id)
-      hash = access_token.get("/apps/#{app_id}").parsed
-      App.new(access_token, hash)
+    def find_collection_member(collection_name, member_class, id)
+      hash = access_token.get("/#{collection_name}/#{id}").parsed
+      member_class.new(access_token, hash)
     end
-
-    private
 
     def oauth_options
       {

@@ -17,12 +17,6 @@ RSpec.describe Aptly::Configuration do
   end
 
   def configuration_data
-    {
-      "id" => 100,
-      "env" => {
-        "VAR1" => "hello",
-        "VAR2" => "goodbye"
-      }
-    }
+    JsonFixtures.configurations.first
   end
 end

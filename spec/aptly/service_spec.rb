@@ -52,18 +52,7 @@ RSpec.describe Aptly::Service do
   end
 
   def service_data
-    {
-      "id" => 1,
-      "handle" => "foo",
-      "process_type" => "web",
-      "container_count" => 2,
-      "container_memory_limit_mb" => 1024,
-      "_links" => {
-        "operations" => {
-          "href" => "https://example.com/services/1/operations"
-        }
-      }
-    }
+    JsonFixtures.services.first
   end
 
   def fake_access_token
@@ -84,9 +73,6 @@ RSpec.describe Aptly::Service do
   end
 
   def fake_operation_data
-    {
-      "id" => 100,
-      "status" => "queued"
-    }
+    JsonFixtures.operations.last
   end
 end

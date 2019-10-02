@@ -2,21 +2,21 @@ RSpec.describe Aptly::App do
   describe "#id" do
     it "is the app's id from the JSON data" do
       app = Aptly::App.new(nil, app_data)
-      expect(app.id).to eq(666)
+      expect(app.id).to eq(1)
     end
   end
 
   describe "#handle" do
     it "is the app's handle from the JSON data" do
       app = Aptly::App.new(nil, app_data)
-      expect(app.handle).to eq("fake-app")
+      expect(app.handle).to eq("app-1")
     end
   end
 
   describe "#operations_href" do
     it "is the operations href from the JSON data" do
       app = Aptly::App.new(nil, app_data)
-      expect(app.operations_href).to eq("https://example.com/apps/666/operations")
+      expect(app.operations_href).to eq("https://example.com/apps/1/operations")
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe Aptly::App do
     it "is the operations href from the JSON data" do
       app = Aptly::App.new(nil, app_data)
       expect(app.current_configuration_href).
-        to eq("https://example.com/apps/666/current_configuration")
+        to eq("https://example.com/apps/1/current_configuration")
     end
   end
 
@@ -51,10 +51,10 @@ RSpec.describe Aptly::App do
       app = Aptly::App.new(fake_configuration_access_token, app_data)
       config = app.current_configuration
       expect(config).to be_a(Aptly::Configuration)
-      expect(config.id).to eq(1234)
+      expect(config.id).to eq(100)
       expect(config.env).to eq(
-        "FOO" => "123",
-        "BAR" => "abc"
+        "VAR1" => "hello",
+        "VAR2" => "goodbye"
       )
     end
   end
@@ -80,32 +80,7 @@ RSpec.describe Aptly::App do
   end
 
   def app_data
-    {
-      "id" => 666,
-      "handle" => "fake-app",
-      "_embedded" => {
-        "services" => [
-          {
-            "id" => "1",
-            "handle" => "foo",
-            "process_type" => "web"
-          },
-          {
-            "id" => "2",
-            "handle" => "bar",
-            "process_type" => "sidekiq default worker"
-          }
-        ]
-      },
-      "_links" => {
-        "operations" => {
-          "href" => "https://example.com/apps/666/operations"
-        },
-        "current_configuration" => {
-          "href" => "https://example.com/apps/666/current_configuration"
-        }
-      }
-    }
+    JsonFixtures.apps.first
   end
 
   def fake_operations_access_token(body)
@@ -121,10 +96,7 @@ RSpec.describe Aptly::App do
   end
 
   def fake_operation_data
-    {
-      "id" => 100,
-      "status" => "queued"
-    }
+    JsonFixtures.operations.last
   end
 
   def fake_configuration_access_token
@@ -138,12 +110,6 @@ RSpec.describe Aptly::App do
   end
 
   def fake_configuration_data
-    {
-      "id" => 1234,
-      "env" => {
-        "FOO" => "123",
-        "BAR" => "abc"
-      }
-    }
+    JsonFixtures.configurations.first
   end
 end

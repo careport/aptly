@@ -2,6 +2,7 @@ require "climate_control"
 require "webmock/rspec"
 
 require "aptly"
+require "support/json_fixtures"
 require "support/request_stubs"
 
 RSpec.configure do |config|
