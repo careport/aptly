@@ -122,6 +122,9 @@ module JsonFixtures
         "_links" => {
           "operations" => {
             "href" => "https://example.com/services/1/operations"
+          },
+          "vhosts" => {
+            "href" => "https://example.com/services/1/vhosts"
           }
         }
       },
@@ -134,6 +137,9 @@ module JsonFixtures
         "_links" => {
           "operations" => {
             "href" => "https://example.com/services/2/operations"
+          },
+          "vhosts" => {
+            "href" => "https://example.com/services/2/vhosts"
           }
         }
       }
@@ -170,6 +176,41 @@ module JsonFixtures
         "env" => {
           "VAR1" => "hello",
           "VAR2" => "goodbye"
+        }
+      }
+    ]
+  end
+
+  def self.vhosts
+    [
+      {
+        "id" => 1,
+        "virtual_domain" => "virtual1.example.com",
+        "type" => "http_proxy_protocol",
+        "external_host" => "external1.example.com",
+        "internal_host" => "internal1.example.com",
+        "status" => "pending",
+        "default" => "true",
+        "internal" => "true",
+        "_links" => {
+          "operations" => {
+            "href" => "https://example.com/vhosts/1/operations"
+          }
+        }
+      },
+      {
+        "id" => 2,
+        "virtual_domain" => "virtual2.example.com",
+        "type" => "http_proxy_protocol",
+        "external_host" => "external2.example.com",
+        "internal_host" => "internal2.example.com",
+        "status" => "provisioned",
+        "default" => "false",
+        "internal" => "false",
+        "_links" => {
+          "operations" => {
+            "href" => "https://example.com/vhosts/2/operations"
+          }
         }
       }
     ]
