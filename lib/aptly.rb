@@ -9,6 +9,7 @@ require "aptly/database_image"
 require "aptly/operation"
 require "aptly/service"
 require "aptly/version"
+require "aptly/vhost"
 
 require "aptly/client"
 
